@@ -10,6 +10,10 @@ Route::get('inicio', function () {
     return view('inicio');
 });
 
+Route::get('dashboard', function () {
+    return view('dashboard');
+});
+
 Route::resource('clientes', \App\Http\Controllers\ClienteController::class);
 
 Route::resource('detalle_ventas', \App\Http\Controllers\DetalleVentaController::class);

@@ -3,7 +3,7 @@
 @section("content")
     <div class="row justify-content-center my-5">
         <div class="col-md-7 text-center">
-            <h1 class="alert alert-primary fw-bold">CLIENTES</h1>
+            <h1 class="alert alert-primary fw-bold">DETALLES CLIENTES</h1>
         </div>
     </div>
 
