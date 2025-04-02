@@ -14,10 +14,12 @@
         <nav class="col-md-2 d-none d-md-block bg-light sidebar p-3">
             <h4>FitPlus</h4>
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Ventas</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Inventario</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Clientes</a></li>
+                <li class="nav-item"><a class="nav-link active" href="inicio">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="clientes">Clientes</a></li>
+                <li class="nav-item"><a class="nav-link" href="ventas">Ventas</a></li>
+                <li class="nav-item"><a class="nav-link" href="productos">Productos</a></li>
+                <li class="nav-item"><a class="nav-link" href="proveedores">Proveedores</a></li>
+                <li class="nav-item"><a class="nav-link" href="detalle_ventas">Detalle Ventas</a></li>
             </ul>
         </nav>
 
