@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Proveedor;
+use App\Models\Detalle_Venta;
+use App\Models\Venta;
 use Illuminate\Http\Request;
 
-class ProveedorController extends Controller
+class VentaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $proveedores = proveedor::all();
-        return view('proveedores.index', compact('proveedores'));//
+        $ventas = Venta::all();
+        return view('ventas.index', compact('ventas'));//
     }
 
     /**
@@ -35,7 +36,7 @@ class ProveedorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Proveedor $proveedor)
+    public function show(Venta $venta)
     {
         //
     }
@@ -43,7 +44,7 @@ class ProveedorController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Proveedor $proveedor)
+    public function edit(Venta $venta)
     {
         //
     }
@@ -51,7 +52,7 @@ class ProveedorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Proveedor $proveedor)
+    public function update(Request $request, Venta $venta)
     {
         //
     }
@@ -59,7 +60,7 @@ class ProveedorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Proveedor $proveedor)
+    public function destroy(Venta $venta)
     {
         //
     }
