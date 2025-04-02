@@ -12,7 +12,7 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        //
+        return "Hola desde index";//
     }
 
     /**
@@ -20,7 +20,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        //
+        return "Hola desde create";//
     }
 
     /**
@@ -28,7 +28,7 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return "Hola desde store";//
     }
 
     /**
@@ -36,7 +36,7 @@ class ClienteController extends Controller
      */
     public function show(Cliente $cliente)
     {
-        //
+        return "Hola desde show";//
     }
 
     /**
@@ -44,7 +44,7 @@ class ClienteController extends Controller
      */
     public function edit(Cliente $cliente)
     {
-        //
+        return "Hola desde edit";//
     }
 
     /**
@@ -52,7 +52,7 @@ class ClienteController extends Controller
      */
     public function update(Request $request, Cliente $cliente)
     {
-        //
+        return "Hola desde update";//
     }
 
     /**
@@ -60,6 +60,6 @@ class ClienteController extends Controller
      */
     public function destroy(Cliente $cliente)
     {
-        //
+        return "Hola desde destroy";//
     }
 }
