@@ -13,8 +13,8 @@ class DetalleVentaController extends Controller
      */
     public function index()
     {
-        $detalle_ventas = detalle_ventas::all();
-        return view('detalle_ventas.index', compact('detalle_ventas'));//
+        $detalles_ventas = Detalle_Venta::all();
+        return view('detalle_ventas.index', compact('detalles_ventas'));//
     }
 
     /**

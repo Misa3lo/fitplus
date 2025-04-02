@@ -33,14 +33,14 @@
                         @foreach($proveedores as $proveedor)
                             <tr>
                                 <td>{{$loop->index+1}}</td>
-                                <td>{{$proveedor->id_producto}}</td>
-                                <td>{{$proveedor->nombre}}</td>
-                                <td>{{$proveedor->descipcion}}</td>
-                                <td>{{$proveedor->precio}}</td>
-                                <td>{{$proveedor->stock}}</td>
-                                <td>{{$proveedor->categoria}}</td>
-                                <td>{{$proveedor->codigo_barras}}</td>
-                                <td>{{$proveedor->fecha_creacion}}</td>
+                                <td>{{$proveedor->id_proveedor}}</td>
+                                <td>{{$proveedor->nombre_empresa}}</td>
+                                <td>{{$proveedor->contacto_nombre}}</td>
+                                <td>{{$proveedor->telefono}}</td>
+                                <td>{{$proveedor->email}}</td>
+                                <td>{{$proveedor->direccion}}</td>
+                                <td>{{$proveedor->ruc}}</td>
+                                <td>{{$proveedor->fecha_registro}}</td>
                                 <td>{{$proveedor->estado}}</td>
                             </tr>
                         @endforeach

@@ -27,15 +27,15 @@
                         </tr>
                         </thead>
                         <tbody class="text-center">
-                        @foreach($detalle_ventas as $detalle_venta)
+                        @foreach($detalles_ventas as $detalle_venta)
                             <tr>
                                 <td>{{$loop->index+1}}</td>
-                                <td>{{$cliente->id_detalle}}</td>
-                                <td>{{$cliente->id_venta}}</td>
-                                <td>{{$cliente->id_producto}}</td>
-                                <td>{{$cliente->cantidad}}</td>
-                                <td>{{$cliente->precio_unitario}}</td>
-                                <td>{{$cliente->subtotal}}</td>
+                                <td>{{$detalle_venta->id_detalle}}</td>
+                                <td>{{$detalle_venta->id_venta}}</td>
+                                <td>{{$detalle_venta->id_producto}}</td>
+                                <td>{{$detalle_venta->cantidad}}</td>
+                                <td>{{$detalle_venta->precio_unitario}}</td>
+                                <td>{{$detalle_venta->subtotal}}</td>
                             </tr>
                         @endforeach
                         </tbody>
