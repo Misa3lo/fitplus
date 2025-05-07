@@ -2,66 +2,69 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Detalle_Venta;
 use App\Models\Venta;
+use App\Models\Cliente;
 use Illuminate\Http\Request;
 
 class VentaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $ventas = Venta::all();
-        return view('ventas.index', compact('ventas'));//
+        $ventas = Venta::with('cliente')->latest()->paginate(10);
+        return view('ventas.index', compact('ventas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $clientes = Cliente::all();
+        return view('ventas.create', compact('clientes'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'fecha_venta' => 'required|date',
+            'total' => 'required|numeric|min:0',
+            'id_cliente' => 'nullable|exists:clientes,id_cliente',
+            'estado' => 'required|in:pendiente,completada,cancelada'
+        ]);
+
+        Venta::create($validated);
+
+        return redirect()->route('ventas.index')
+            ->with('success', 'Venta registrada correctamente');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Venta $venta)
     {
-        //
+        return view('ventas.show', compact('venta'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Venta $venta)
     {
-        //
+        $clientes = Cliente::all();
+        return view('ventas.edit', compact('venta', 'clientes'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Venta $venta)
     {
-        //
+        $validated = $request->validate([
+            'fecha_venta' => 'required|date',
+            'total' => 'required|numeric|min:0',
+            'id_cliente' => 'nullable|exists:clientes,id_cliente',
+            'estado' => 'required|in:pendiente,completada,cancelada'
+        ]);
+
+        $venta->update($validated);
+
+        return redirect()->route('ventas.index')
+            ->with('success', 'Venta actualizada correctamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Venta $venta)
     {
-        //
+        $venta->delete();
+        return redirect()->route('ventas.index')
+            ->with('success', 'Venta eliminada correctamente');
     }
 }

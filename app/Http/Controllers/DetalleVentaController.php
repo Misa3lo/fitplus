@@ -2,66 +2,74 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cliente;
-use App\Models\Detalle_Venta;
+use App\Models\DetalleVenta;
+use App\Models\Venta;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 
 class DetalleVentaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $detalles_ventas = Detalle_Venta::all();
-        return view('detalle_ventas.index', compact('detalles_ventas'));//
+        $detalles = DetalleVenta::with(['venta', 'producto'])->paginate(10);
+        return view('detalle_ventas.index', compact('detalles'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $ventas = Venta::all();
+        $productos = Producto::all();
+        return view('detalle_ventas.create', compact('ventas', 'productos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'id_venta' => 'required|exists:ventas,id_venta',
+            'id_producto' => 'required|exists:productos,id_producto',
+            'cantidad' => 'required|integer|min:1',
+            'precio_unitario' => 'required|numeric|min:0',
+            'subtotal' => 'required|numeric|min:0'
+        ]);
+
+        DetalleVenta::create($request->all());
+
+        return redirect()->route('detalle_ventas.index')
+            ->with('success', 'Detalle de venta creado correctamente');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Detalle_Venta $detalle_Venta)
+    public function show(DetalleVenta $detalleVenta)
     {
-        //
+        return view('detalle_ventas.show', compact('detalleVenta'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Detalle_Venta $detalle_Venta)
+    public function edit(DetalleVenta $detalleVenta)
     {
-        //
+        $ventas = Venta::all();
+        $productos = Producto::all();
+        return view('detalle_ventas.edit', compact('detalleVenta', 'ventas', 'productos'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Detalle_Venta $detalle_Venta)
+    public function update(Request $request, DetalleVenta $detalleVenta)
     {
-        //
+        $request->validate([
+            'id_venta' => 'required|exists:ventas,id_venta',
+            'id_producto' => 'required|exists:productos,id_producto',
+            'cantidad' => 'required|integer|min:1',
+            'precio_unitario' => 'required|numeric|min:0',
+            'subtotal' => 'required|numeric|min:0'
+        ]);
+
+        $detalleVenta->update($request->all());
+
+        return redirect()->route('detalle_ventas.index')
+            ->with('success', 'Detalle de venta actualizado correctamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Detalle_Venta $detalle_Venta)
+    public function destroy(DetalleVenta $detalleVenta)
     {
-        //
+        $detalleVenta->delete();
+        return redirect()->route('detalle_ventas.index')
+            ->with('success', 'Detalle de venta eliminado correctamente');
     }
 }
