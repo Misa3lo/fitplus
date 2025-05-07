@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DetalleVentaController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -16,7 +18,7 @@ Route::get('dashboard', function () {
 
 Route::resource('clientes', \App\Http\Controllers\ClienteController::class);
 
-Route::resource('detalle_ventas', \App\Http\Controllers\DetalleVentaController::class);
+Route::resource('detalle_ventas', DetalleVentaController::class)->except(['create', 'store', 'show']);
 
 Route::resource('ventas', \App\Http\Controllers\VentaController::class);
 

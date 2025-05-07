@@ -25,5 +25,15 @@ class DetalleVenta extends Model
         'subtotal' => 'decimal:2'
     ];
 
+    // Relación con Venta
+    public function venta()
+    {
+        return $this->belongsTo(Venta::class, 'id_venta');
+    }
 
+    // Relación con Producto
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'id_producto');
+    }
 }

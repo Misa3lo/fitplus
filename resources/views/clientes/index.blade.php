@@ -5,6 +5,9 @@
         <div class="row mb-4">
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center">
+                    <a href="{{ url('/dashboard') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-tachometer-alt me-1"></i> Dashboard
+                    </a>
                     <h1 class="h2 text-primary fw-bold">
                         <i class="fas fa-users me-2"></i>Gestión de Clientes
                     </h1>
