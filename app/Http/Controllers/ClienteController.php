@@ -7,60 +7,55 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $clientes = Cliente::all();
-        return view('clientes.index', compact('clientes'));//
+        return view('clientes.index', data:compact('clientes'));
+        //dd($horas);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return "Hola desde create";//
+        return view('clientes.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        return "Hola desde store";//
+        Cliente::create([
+            "nombre"=>$request->nombre,
+            "apellido"=>$request->apellido,
+            "email"=>$request->email,
+            "telefono"=>$request->telefono,
+            "direccion"=>$request->direccion,
+            "tipo_documento"=>$request->tipo_documento,
+            "numero_documento"=>$request->numero_documento,
+            "fecha_registro"=>$request->fecha_registro,
+            "estado"=>$request->estado,
+        ]);
+        return redirect()->route('clientes.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Cliente $cliente)
     {
-        return "Hola desde show";//
+        return "Hola desde show";
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Cliente $cliente)
     {
-        return "Hola desde edit";//
+        return view('clientes.edit',compact("cliente"));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, Cliente $cliente)
     {
-        return "Hola desde update";//
+        $cliente->update($request->all());
+        return redirect()->route('clientes.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Cliente $cliente)
     {
-        return "Hola desde destroy";//
+        $cliente->delete();
+        return redirect()->route('clientes.index');
     }
 }
