@@ -44,6 +44,12 @@
 </head>
 <body>
 
+<div style="position: absolute; top: 20px; right: 20px;">
+    <a href="/dashboard" class="btn btn-sm btn-outline-light" title="Ir al Dashboard">
+        <i class="bi bi-speedometer2"></i>
+    </a>
+</div>
+
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="container text-center">
