@@ -30,4 +30,16 @@ class Venta extends Model
     {
         return $this->belongsTo(Cliente::class, 'id_cliente');
     }
+
+    public function productos()
+    {
+        return $this->belongsToMany(Producto::class, 'venta_producto')
+            ->withPivot('cantidad', 'precio_unitario', 'subtotal')
+            ->withTimestamps();
+    }
+    //Metodo para calcular el total de la venta
+    public function calcularTotal()
+    {
+        return $this->productos->sum('pivot.subtotal');
+    }
 }

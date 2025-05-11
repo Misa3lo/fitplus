@@ -114,15 +114,114 @@
 
     @section('scripts')
         <script>
-            // Inicializar tooltips
-            $(document).ready(function(){
-                $('[data-bs-toggle="tooltip"]').tooltip();
+            $(document).ready(function() {
+                let contadorProductos = 0;
+                const productosDisponibles = @json($productos);
 
-                // Filtrar por fecha
-                $('#btn-filtrar').click(function(){
-                    const fecha = $('#fecha-filtro').val();
-                    window.location.href = "{{ route('ventas.index') }}?fecha=" + fecha;
+                // Función para actualizar select de productos
+                function actualizarSelectProductos(select) {
+                    select.empty().append('<option value="">Seleccionar producto...</option>');
+
+                    productosDisponibles.forEach(producto => {
+                        // Solo mostrar productos con stock > 0
+                        if(producto.stock > 0) {
+                            select.append(
+                                `<option value="${producto.id_producto}"
+                         data-precio="${producto.precio}"
+                         data-stock="${producto.stock}">
+                            ${producto.nombre} (Stock: ${producto.stock}, $${producto.precio})
+                        </option>`
+                            );
+                        }
+                    });
+
+                    select.select2();
+                }
+
+                // Agregar nuevo producto
+                $('#btn-agregar-producto').click(function() {
+                    contadorProductos++;
+                    const nuevaFila = `
+                <tr data-index="${contadorProductos}">
+                    <td>
+                        <select class="form-select select-producto" name="productos[${contadorProductos}][id]" required>
+                            <option value="">Seleccionar producto...</option>
+                            ${productosDisponibles.map(p =>
+                        `<option value="${p.id_producto}"
+                                 data-precio="${p.precio}"
+                                 data-stock="${p.stock}"
+                                 ${p.stock <= 0 ? 'disabled' : ''}>
+                                    ${p.nombre} (Stock: ${p.stock}, $${p.precio})
+                                </option>`
+                    ).join('')}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" class="form-control precio" step="0.01" readonly>
+                    </td>
+                    <td>
+                        <input type="number" class="form-control cantidad"
+                               name="productos[${contadorProductos}][cantidad]"
+                               min="1" value="1" required>
+                        <small class="text-muted stock-disponible"></small>
+                    </td>
+                    <td>
+                        <input type="number" class="form-control subtotal" step="0.01" readonly>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-eliminar">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>`;
+
+                    $('#tabla-productos tbody').append(nuevaFila);
+                    $('.select-producto').select2();
                 });
+
+                // Eventos dinámicos
+                $(document)
+                    .on('change', '.select-producto', function() {
+                        const fila = $(this).closest('tr');
+                        const precio = parseFloat($(this).find('option:selected').data('precio')) || 0;
+                        const stock = parseInt($(this).find('option:selected').data('stock')) || 0;
+
+                        fila.find('.precio').val(precio.toFixed(2));
+                        fila.find('.cantidad').attr('max', stock);
+                        fila.find('.stock-disponible').text(`Max: ${stock}`);
+
+                        calcularSubtotal(fila);
+                        calcularTotal();
+                    })
+                    .on('input', '.cantidad', function() {
+                        calcularSubtotal($(this).closest('tr'));
+                        calcularTotal();
+                    })
+                    .on('click', '.btn-eliminar', function() {
+                        if($('#tabla-productos tbody tr').length > 1) {
+                            $(this).closest('tr').remove();
+                            calcularTotal();
+                        }
+                    });
+
+                function calcularSubtotal(fila) {
+                    const precio = parseFloat(fila.find('.precio').val()) || 0;
+                    const cantidad = parseInt(fila.find('.cantidad').val()) || 0;
+                    const subtotal = precio * cantidad;
+
+                    fila.find('.subtotal').val(subtotal.toFixed(2));
+                }
+
+                function calcularTotal() {
+                    let total = 0;
+                    $('.subtotal').each(function() {
+                        total += parseFloat($(this).val()) || 0;
+                    });
+                    $('.total').val(total.toFixed(2));
+                }
+
+                // Agregar primer producto al cargar
+                $('#btn-agregar-producto').click();
             });
         </script>
     @endsection
