@@ -44,16 +44,20 @@ class ProveedorController extends Controller
 
     public function update(Request $request, Proveedor $proveedor)
     {
-        $proveedor->update([
-            "nombre_empresa" => $request->nombre_empresa,
-            "contacto_nombre" => $request->contacto_nombre,
-            "telefono" => $request->telefono,
-            "email" => $request->email,
-            "direccion" => $request->direccion,
-            "ruc" => $request->ruc,
-            "estado" => $request->estado
+        $validated = $request->validate([
+            'nombre_empresa' => 'required|string|max:100',
+            'contacto_nombre' => 'required|string|max:100',
+            'telefono' => 'required|string|max:20',
+            'email' => 'nullable|email|max:100',
+            'direccion' => 'nullable|string|max:255',
+            'ruc' => 'nullable|string|max:20',
+            'estado' => 'required|in:activo,inactivo'
         ]);
-        return redirect()->route('proveedores.index');
+
+        $proveedor->update($validated);
+
+        return redirect()->route('proveedores.index')
+            ->with('success', 'Proveedor actualizado correctamente');
     }
 
     public function destroy(Proveedor $proveedor)

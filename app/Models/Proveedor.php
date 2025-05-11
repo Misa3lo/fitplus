@@ -12,6 +12,14 @@ class Proveedor extends Model
 
     protected $table = 'proveedores';
     protected $primaryKey = 'id_proveedor';
+    public $incrementing = true; // Asegúrate que coincida con tu DB
+    protected $keyType = 'int'; // O 'string' si usas UUIDs
+
+// Para que Laravel sepa cómo encontrar proveedores por id_proveedor
+    public function getRouteKeyName()
+    {
+        return 'id_proveedor';
+    }
     protected $fillable = [
         'nombre_empresa',
         'contacto_nombre',

@@ -24,6 +24,7 @@ Route::resource('ventas', \App\Http\Controllers\VentaController::class);
 
 Route::resource('productos', \App\Http\Controllers\ProductoController::class);
 
-Route::resource('proveedores', \App\Http\Controllers\ProveedorController::class);
-
+Route::resource('proveedores', \App\Http\Controllers\ProveedorController::class)
+    ->parameters(['proveedores' => 'proveedor'])
+    ->names('proveedores');
 Route::get('/home', [\App\Http\Controllers\ClienteController::class, 'index'])->name('home');
