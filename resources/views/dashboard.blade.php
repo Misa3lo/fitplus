@@ -14,7 +14,7 @@
         <nav class="col-md-2 d-none d-md-block bg-light sidebar p-3">
             <h4>FitPlus</h4>
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link active" href="inicio">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="clientes">Clientes</a></li>
                 <li class="nav-item"><a class="nav-link" href="ventas">Ventas</a></li>
                 <li class="nav-item"><a class="nav-link" href="productos">Productos</a></li>

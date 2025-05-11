@@ -68,8 +68,8 @@
                         <div class="col-md-6 mb-3">
                             <label for="estado" class="form-label fw-bold">Estado</label>
                             <select class="form-select" name="estado" id="estado">
-                                <option value="1" {{$cliente->estado == 1 ? 'selected' : ''}}>Activo</option>
-                                <option value="0" {{$cliente->estado == 0 ? 'selected' : ''}}>Inactivo</option>
+                                <option value="activo" {{$cliente->estado == 'activo' ? 'selected' : ''}}>Activo</option>
+                                <option value="inactivo" {{$cliente->estado == 'inactivo' ? 'selected' : ''}}>Inactivo</option>
                             </select>
                         </div>
                     </div>

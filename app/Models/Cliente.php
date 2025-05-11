@@ -13,6 +13,7 @@ class Cliente extends Model
     protected $table = 'clientes';
     protected $primaryKey = 'id_cliente';
     protected $fillable = ["nombre","apellido","email","telefono","direccion","tipo_documento","numero_documento","fecha_registro","estado"];
-
+    public $incrementing = false; // Si id_cliente no es autoincremental
+    protected $keyType = 'string'; // Si id_cliente no es entero
 
 }

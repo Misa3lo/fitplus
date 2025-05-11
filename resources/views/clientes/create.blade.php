@@ -66,8 +66,8 @@
                         <div class="col-md-6 mb-3">
                             <label for="estado" class="form-label fw-bold">Estado</label>
                             <select class="form-select" name="estado" id="estado">
-                                <option value="1" selected>Activo</option>
-                                <option value="0">Inactivo</option>
+                                <option value="activo" selected>Activo</option>
+                                <option value="inactivo">Inactivo</option>
                             </select>
                         </div>
                     </div>

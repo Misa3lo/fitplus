@@ -10,9 +10,8 @@ class ClienteController extends Controller
 
     public function index()
     {
-        $clientes = Cliente::all();
-        return view('clientes.index', data:compact('clientes'));
-        //dd($horas);
+        $clientes = Cliente::all(); // Considera usar paginación: Cliente::paginate(10);
+        return view('clientes.index', compact('clientes'));
     }
 
     public function create()
@@ -22,18 +21,26 @@ class ClienteController extends Controller
 
     public function store(Request $request)
     {
-        Cliente::create([
-            "nombre"=>$request->nombre,
-            "apellido"=>$request->apellido,
-            "email"=>$request->email,
-            "telefono"=>$request->telefono,
-            "direccion"=>$request->direccion,
-            "tipo_documento"=>$request->tipo_documento,
-            "numero_documento"=>$request->numero_documento,
-            "fecha_registro"=>$request->fecha_registro,
-            "estado"=>$request->estado,
+        $request->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'email' => 'required|email',
+            'numero_documento' => 'required|unique:clientes'
         ]);
-        return redirect()->route('clientes.index');
+
+        Cliente::create([
+            "nombre" => $request->nombre,
+            "apellido" => $request->apellido,
+            "email" => $request->email,
+            "telefono" => $request->telefono,
+            "direccion" => $request->direccion,
+            "tipo_documento" => $request->tipo_documento,
+            "numero_documento" => $request->numero_documento,
+            "fecha_registro" => now(), // Mejor que sea automático
+            "estado" => "activo" // Valor por defecto
+        ]);
+
+        return redirect()->route('clientes.index')->with('success', 'Cliente creado correctamente');
     }
 
     public function show(Cliente $cliente)
