@@ -14,7 +14,10 @@
                     <div class="row mb-4">
                         <div class="col-md-6 mb-3">
                             <label for="nombre" class="form-label fw-bold">Nombre</label>
-                            <input type="text" class="form-control" name="nombre" id="nombre" required>
+                            <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre" id="nombre" required>
+                            @error('nombre')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                             <div class="invalid-feedback">Ingrese el nombre del producto</div>
                         </div>
                         <div class="col-md-6 mb-3">

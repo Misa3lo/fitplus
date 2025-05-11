@@ -9,10 +9,9 @@ class ProductoController extends Controller
 {
     public function index()
     {
-        $productos = Producto::all();
+        $productos = Producto::paginate(10); // Paginación con 10 items por página
         return view('productos.index', compact('productos'));
     }
-
     public function create()
     {
         return view('productos.create');
@@ -20,16 +19,20 @@ class ProductoController extends Controller
 
     public function store(Request $request)
     {
-        Producto::create([
-            "nombre" => $request->nombre,
-            "descripcion" => $request->descripcion,
-            "precio" => $request->precio,
-            "stock" => $request->stock,
-            "categoria" => $request->categoria,
-            "codigo_barras" => $request->codigo_barras,
-            "estado" => $request->estado,
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:100',
+            'descripcion' => 'nullable|string',
+            'precio' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'categoria' => 'required|string',
+            'codigo_barras' => 'nullable|string|unique:productos',
+            'estado' => 'required|in:activo,inactivo'
         ]);
-        return redirect()->route('productos.index');
+
+        Producto::create($validated);
+
+        return redirect()->route('productos.index')
+            ->with('success', 'Producto creado exitosamente');
     }
 
     public function show(Producto $producto)
@@ -44,21 +47,27 @@ class ProductoController extends Controller
 
     public function update(Request $request, Producto $producto)
     {
-        $producto->update([
-            "nombre" => $request->nombre,
-            "descripcion" => $request->descripcion,
-            "precio" => $request->precio,
-            "stock" => $request->stock,
-            "categoria" => $request->categoria,
-            "codigo_barras" => $request->codigo_barras,
-            "estado" => $request->estado,
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:100',
+            'descripcion' => 'nullable|string',
+            'precio' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'categoria' => 'required|string',
+            'codigo_barras' => 'nullable|string|unique:productos,codigo_barras,'.$producto->id_producto.',id_producto',
+            'estado' => 'required|in:activo,inactivo'
         ]);
-        return redirect()->route('productos.index');
+
+        $producto->update($validated);
+
+        return redirect()->route('productos.index')
+            ->with('success', 'Producto actualizado exitosamente');
     }
 
     public function destroy(Producto $producto)
     {
         $producto->delete();
-        return redirect()->route('productos.index');
+
+        return redirect()->route('productos.index')
+            ->with('success', 'Producto eliminado correctamente');
     }
 }

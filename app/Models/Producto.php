@@ -13,18 +13,18 @@ class Producto extends Model
     protected $table = 'productos';
     protected $primaryKey = 'id_producto';
     protected $fillable = [
-        'nombre',
-        'descripcion',
-        'precio',
-        'stock',
-        'categoria',
-        'codigo_barras',
-        'estado'
+        'nombre', 'descripcion', 'precio', 'stock',
+        'categoria', 'codigo_barras', 'estado'
     ];
 
-    // Opcional: Conversiones de tipo
+    // Añade esto si id_producto no es autoincremental
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    // Casts para asegurar tipos de datos
     protected $casts = [
-        'precio' => 'decimal:2',
-        'stock' => 'integer'
+        'precio' => 'float',
+        'stock' => 'integer',
+        'estado' => 'string'
     ];
 }

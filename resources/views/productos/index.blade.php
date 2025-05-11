@@ -1,6 +1,12 @@
 @extends("layouts.app")
 
 @section("content")
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="container-fluid py-4">
         <!-- Encabezado -->
         <div class="row mb-4">
@@ -108,20 +114,9 @@
                     <div class="card-footer bg-light">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="text-muted small">
-                                Mostrando {{ $productos->count() }} registros
+                                Mostrando {{ $productos->firstItem() }} a {{ $productos->lastItem() }} de {{ $productos->total() }} registros
                             </div>
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination pagination-sm mb-0">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1">Anterior</a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Siguiente</a>
-                                    </li>
-                                </ul>
-                            </nav>
+                            {{ $productos->links() }}
                         </div>
                     </div>
                 </div>
