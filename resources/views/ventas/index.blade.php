@@ -115,65 +115,78 @@
     @section('scripts')
         <script>
             $(document).ready(function() {
-                let contadorProductos = 0;
-                const productosDisponibles = @json($productos);
+                // 1. Verifica que $productos existe antes de usarlo
+                @if(!isset($productos))
+                console.error('Error: Variable $productos no definida');
+                var productosDisponibles = [];
+                @else
+                var productosDisponibles = @json($productos);
+                @endif
 
-                // Función para actualizar select de productos
-                function actualizarSelectProductos(select) {
-                    select.empty().append('<option value="">Seleccionar producto...</option>');
+                // 2. Función mejorada para actualizar select
+                function actualizarSelectProductos(selectElement) {
+                    selectElement.empty().append('<option value="">Seleccionar producto...</option>');
+
+                    if(productosDisponibles.length === 0) {
+                        console.warn('No hay productos disponibles');
+                        return;
+                    }
 
                     productosDisponibles.forEach(producto => {
-                        // Solo mostrar productos con stock > 0
                         if(producto.stock > 0) {
-                            select.append(
-                                `<option value="${producto.id_producto}"
-                         data-precio="${producto.precio}"
-                         data-stock="${producto.stock}">
-                            ${producto.nombre} (Stock: ${producto.stock}, $${producto.precio})
-                        </option>`
+                            const option = new Option(
+                                `${producto.nombre} (Stock: ${producto.stock}, $${producto.precio.toFixed(2)})`,
+                                producto.id_producto,
+                                false,
+                                false
                             );
+                            option.dataset.precio = producto.precio;
+                            option.dataset.stock = producto.stock;
+                            selectElement.append(option);
                         }
                     });
 
-                    select.select2();
+                    if(selectElement.hasClass('select2')) {
+                        selectElement.trigger('change.select2');
+                    }
                 }
 
-                // Agregar nuevo producto
-                $('#btn-agregar-producto').click(function() {
-                    contadorProductos++;
-                    const nuevaFila = `
-                <tr data-index="${contadorProductos}">
-                    <td>
-                        <select class="form-select select-producto" name="productos[${contadorProductos}][id]" required>
-                            <option value="">Seleccionar producto...</option>
-                            ${productosDisponibles.map(p =>
-                        `<option value="${p.id_producto}"
-                                 data-precio="${p.precio}"
-                                 data-stock="${p.stock}"
-                                 ${p.stock <= 0 ? 'disabled' : ''}>
-                                    ${p.nombre} (Stock: ${p.stock}, $${p.precio})
-                                </option>`
+                // 3. Mejora en la creación de filas
+                function crearFilaProducto(index) {
+                    return `
+            <tr data-index="${index}">
+                <td>
+                    <select class="form-select select-producto" name="productos[${index}][id]" required>
+                        <option value="">Seleccionar producto...</option>
+                        ${productosDisponibles.map(p =>
+                        p.stock > 0 ?
+                            `<option value="${p.id_producto}"
+                                     data-precio="${p.precio}"
+                                     data-stock="${p.stock}">
+                                ${p.nombre} (Stock: ${p.stock}, $${p.precio.toFixed(2)})
+                            </option>` : ''
                     ).join('')}
-                        </select>
-                    </td>
-                    <td>
-                        <input type="number" class="form-control precio" step="0.01" readonly>
-                    </td>
-                    <td>
-                        <input type="number" class="form-control cantidad"
-                               name="productos[${contadorProductos}][cantidad]"
-                               min="1" value="1" required>
-                        <small class="text-muted stock-disponible"></small>
-                    </td>
-                    <td>
-                        <input type="number" class="form-control subtotal" step="0.01" readonly>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-eliminar">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </td>
-                </tr>`;
+                    </select>
+                </td>
+                <td>
+                    <input type="number" class="form-control precio" step="0.01" readonly>
+                </td>
+                <td>
+                    <input type="number" class="form-control cantidad"
+                           name="productos[${index}][cantidad]"
+                           min="1" value="1" required>
+                    <small class="text-muted stock-disponible"></small>
+                </td>
+                <td>
+                    <input type="number" class="form-control subtotal" step="0.01" readonly>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-eliminar">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>`;
+                }
 
                     $('#tabla-productos tbody').append(nuevaFila);
                     $('.select-producto').select2();

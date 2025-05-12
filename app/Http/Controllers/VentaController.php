@@ -18,7 +18,7 @@ class VentaController extends Controller
     public function create()
     {
         $clientes = Cliente::all();
-        $productos = Producto::where('stock', '>', 0)->get(); // Solo productos con stock
+        $productos = Producto::where('stock', '>', 0)->get();
 
         return view('ventas.create', compact('clientes', 'productos'));
     }
