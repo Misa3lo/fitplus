@@ -44,7 +44,7 @@
                                     <tr>
                                         <th width="50">#</th>
                                         <th>ID Venta</th>
-                                        <th>ID Producto</th>
+                                        <th>Producto</th>
                                         <th>Cantidad</th>
                                         <th>Precio Unitario</th>
                                         <th>Subtotal</th>
@@ -56,7 +56,7 @@
                                         <tr>
                                             <td class="fw-bold">{{ $loop->index+1 }}</td>
                                             <td>{{ $detalle->id_venta }}</td>
-                                            <td>{{ $detalle->id_producto }}</td>
+                                            <td>{{ $detalle->producto->nombre }}</td>
                                             <td>{{ $detalle->cantidad }}</td>
                                             <td>${{ number_format($detalle->precio_unitario, 2) }}</td>
                                             <td>${{ number_format($detalle->subtotal, 2) }}</td>
